@@ -11,10 +11,13 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 private const val OPEN_WEATHER_BASE_URL = "https://api.openweathermap.org/"
+private const val OPEN_WEATHER_API_KEY = "5501b794c0ef0bb8c063fdb1a3c76569"
+
 private val paramsInterceptor = Interceptor { chain ->
     var request = chain.request()
     val newUrl = request.url.newBuilder()
         .addPathSegments("data/2.5/weather")
+        .addQueryParameter("appid", OPEN_WEATHER_API_KEY)
         .build()
     request = request.newBuilder()
         .url(newUrl)
@@ -41,8 +44,8 @@ private val retrofit: Retrofit = Retrofit.Builder()
 interface WeatherApiService {
     @GET("/")
     suspend fun getPlace(
-        @Query("lat") latitude: Int,
-        @Query("lon") longitude: Int
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double
     ): Place
 }
 

@@ -17,7 +17,7 @@
         android:theme="@style/Theme.AirWeatherApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".main_activity.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AirWeatherApp.NoActionBar">
             <intent-filter>
@@ -37,7 +37,7 @@
                 android:resource="@xml/searchable" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".main_activity.MainActivity" />
         </activity>
 
 </application>

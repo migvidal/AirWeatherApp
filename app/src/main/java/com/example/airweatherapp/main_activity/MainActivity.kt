@@ -1,4 +1,4 @@
-package com.example.airweatherapp
+package com.example.airweatherapp.main_activity
 
 import android.Manifest
 import android.app.SearchManager
@@ -10,18 +10,29 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
+import com.example.airweatherapp.R
+import com.example.airweatherapp.SearchActivity
 import com.example.airweatherapp.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import timber.log.Timber
 
 const val PERMISSION_REQUEST_LOCATION = 1000
 
 class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
+    /**
+     * View binding
+     */
+    private lateinit var binding: ActivityMainBinding
+
+    /**
+     * View model
+     */
+    private val viewModel: MainActivityViewModel by viewModels()
 
     /**
      * Location client
@@ -32,11 +43,11 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
      * Location
      */
     private lateinit var location: Location
-    private lateinit var binding: ActivityMainBinding
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -48,6 +59,19 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
         // Listener for button
         binding.btnShowLocation.setOnClickListener {
             showLocation()
+        }
+
+        // Observe the viewModel
+        viewModel.place.observe(this) { place ->
+            binding.apply {
+                val text = """Location: ${place.name}, ${place.sys.country}
+                    |Temperature: ${place.main.temp}
+                    |Min - max: ${place.main.tempMin} - ${place.main.tempMax}
+                    |Weather: ${place.weather[0].main}
+                    |Detail: ${place.weather[0].description}
+                """.trimMargin()
+                tvLocation.text = text
+            }
         }
 
     }
@@ -92,11 +116,7 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
             return
         }
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            val text = """Lat: ${it.latitude}
-                |Long: ${it.longitude}
-            """.trimMargin()
-            binding.tvLocation.text = text
-            Timber.i(text)
+            viewModel.getPlace(it.latitude, it.longitude)
         }
 
     }
