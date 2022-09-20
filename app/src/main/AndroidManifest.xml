@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SearchActivity"
+            android:name=".search.SearchActivity"
             android:exported="true"
             android:theme="@style/Theme.AirWeatherApp.NoActionBar">
             <intent-filter>

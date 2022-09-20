@@ -1,4 +1,4 @@
-package com.example.airweatherapp
+package com.example.airweatherapp.search
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -9,6 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import com.example.airweatherapp.R
 import com.example.airweatherapp.databinding.ActivitySearchBinding
 
 class SearchActivity : AppCompatActivity() {
@@ -27,6 +28,8 @@ class SearchActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

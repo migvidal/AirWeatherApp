@@ -1,4 +1,4 @@
-package com.example.airweatherapp
+package com.example.airweatherapp.search
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

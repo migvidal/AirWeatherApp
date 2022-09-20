@@ -42,10 +42,21 @@ private val retrofit: Retrofit = Retrofit.Builder()
     .build()
 
 interface WeatherApiService {
+    /**
+     * Get place by coordinates
+     */
     @GET("/")
     suspend fun getPlace(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double
+    ): Place
+
+    /**
+     * Get city by name
+     */
+    @GET("/")
+    suspend fun getPlace(
+        @Query("q") city: String,
     ): Place
 }
 

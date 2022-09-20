@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import com.example.airweatherapp.R
-import com.example.airweatherapp.SearchActivity
+import com.example.airweatherapp.search.SearchActivity
 import com.example.airweatherapp.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
