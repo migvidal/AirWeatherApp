@@ -16,8 +16,7 @@ import androidx.core.app.ActivityCompat
 import com.example.airweatherapp.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.material.snackbar.Snackbar
-import java.util.logging.Logger
+import timber.log.Timber
 
 const val PERMISSION_REQUEST_LOCATION = 1000
 
@@ -93,29 +92,14 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
             return
         }
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            val lat = it.latitude
-            binding.tvLocation.text = lat.toString()
+            val text = """Lat: ${it.latitude}
+                |Long: ${it.longitude}
+            """.trimMargin()
+            binding.tvLocation.text = text
+            Timber.i(text)
         }
 
-
-        /*val requestPermissionLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
-                    fusedLocationClient.lastLocation.addOnSuccessListener {
-                        val lat = it.latitude
-                    }
-                } else {
-                    // Explain to the user that the feature is unavailable because the
-                    // features requires a permission that the user has denied. At the
-                    // same time, respect the user's decision. Don't link to system
-                    // settings in an effort to convince the user to change their
-                    // decision.
-                }
-            }
-        requestPermissionLauncher.launch("Input")*/
-       }
+    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
