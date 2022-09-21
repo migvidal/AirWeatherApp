@@ -57,10 +57,20 @@ class ResultsFragment : Fragment() {
                     ResponseStatus.DONE -> {
                         loadingScreen.loadingScreen.visibility = View.GONE
                         mainScreen.visibility = View.VISIBLE
+                        loadingScreen.progressBar.visibility = View.VISIBLE
                     }
                     else -> {
                         loadingScreen.loadingScreen.visibility = View.VISIBLE
                         mainScreen.visibility = View.GONE
+                        loadingScreen.progressBar.visibility = View.VISIBLE
+                        if (status == ResponseStatus.ERROR) {
+                            val errorMsg = """There was an error. Go back and try again later.
+                                |Try these: "London", "Paris", "Madrid", "Toronto"
+                            """.trimMargin()
+                            loadingScreen.infoText.text = errorMsg
+                            loadingScreen.progressBar.visibility = View.GONE
+                        }
+
                     }
                 }
             }
