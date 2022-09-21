@@ -21,6 +21,7 @@ import com.example.airweatherapp.search.SearchActivity
 import com.example.airweatherapp.weatherText
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
 const val PERMISSION_REQUEST_LOCATION = 1000
@@ -99,6 +100,15 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
         ) {
             getLocation()
         } else {
+            // location permission message
+            val snackMessage = "Para que la app funcione debes activar la localización en Ajustes. (No sé usar los permisos)"
+            Snackbar.make(
+                this,
+                binding.root,
+                snackMessage,
+                Snackbar.LENGTH_LONG
+            ).show()
+
             requestLocationPermission()
         }
     }
@@ -110,19 +120,13 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
     private fun getLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this, arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION),
+                PERMISSION_REQUEST_LOCATION
+            )
             return
         }
         fusedLocationClient.lastLocation.addOnSuccessListener {
@@ -165,13 +169,8 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_REQUEST_LOCATION) {
-            // Request for camera permission.
             if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission has been granted
                 getLocation()
-            } else {
-                // Permission request was denied.
-
             }
         }
     }

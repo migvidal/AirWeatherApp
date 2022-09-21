@@ -21,16 +21,25 @@ class CommonViewModel() : ViewModel() {
     private val _place: MutableLiveData<Place> = MutableLiveData<Place>()
     val place: LiveData<Place> = _place
 
+    /**
+     * Get a city by name
+     * @param cityName Name of a valid city in English
+     */
     fun getPlace(cityName: String) {
         baseGetPlace(cityName)
     }
 
+    /**
+     * Get a place by coordinates
+     * @param latitude Latitude
+     * @param longitude Longitude
+     */
     fun getPlace(latitude: Double, longitude: Double) {
         baseGetPlace(latitude, longitude)
     }
 
     /**
-     * General logic for fetching a place
+     * General logic for fetching a Place
      */
     private fun baseGetPlace(vararg input: Any) {
         viewModelScope.launch {
