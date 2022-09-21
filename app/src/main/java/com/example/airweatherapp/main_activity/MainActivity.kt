@@ -101,7 +101,8 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
             getLocation()
         } else {
             // location permission message
-            val snackMessage = "Para que la app funcione debes activar la localización en Ajustes. (No sé usar los permisos)"
+            val snackMessage =
+                "Para que la app funcione debes activar la localización en Ajustes. (No sé usar los permisos)"
             Snackbar.make(
                 this,
                 binding.root,
@@ -123,8 +124,10 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(this, arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION),
+            ActivityCompat.requestPermissions(
+                this, arrayOf(
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
                 PERMISSION_REQUEST_LOCATION
             )
             return

@@ -9,7 +9,7 @@
     <include
         android:id="@+id/loading_screen"
         layout="@layout/layout_loading_screen"
-        tools:visibility="gone"/>
+        tools:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/main_screen"
@@ -18,12 +18,14 @@
         android:gravity="top"
         android:orientation="vertical"
         tools:context=".search.ResultsFragment">
+
         <TextView
             android:id="@+id/tv_heading"
             style="@style/text_box"
             android:layout_width="match_parent"
             android:textSize="@dimen/heading_size"
-            tools:text="Name of place"/>
+            tools:text="Name of place" />
+
         <TextView
             android:id="@+id/tv_data"
             style="@style/text_box"
@@ -32,6 +34,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Data"/>
+            tools:text="Data" />
     </LinearLayout>
 </FrameLayout>
