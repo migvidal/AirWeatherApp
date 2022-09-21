@@ -6,14 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.example.airweatherapp.R
+import com.example.airweatherapp.CommonViewModel
 import com.example.airweatherapp.ResponseStatus
 import com.example.airweatherapp.databinding.FragmentResultsBinding
-import com.example.airweatherapp.main_activity.MainActivityViewModel
+import com.example.airweatherapp.weatherText
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -29,7 +27,7 @@ class ResultsFragment : Fragment() {
     /**
      * View model
      */
-    private val viewModel: ResultsFragmentViewModel by viewModels()
+    private val viewModel: CommonViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,14 +43,11 @@ class ResultsFragment : Fragment() {
 
         val intent = activity?.intent
         // observe vm
-        viewModel.place.observe(this) {place ->
-            val text = """Weather in ${place.name}, ${place.sys.country}:
-                    |- Temperature: ${place.main.temp}
-                    |- Min - max: ${place.main.tempMin} - ${place.main.tempMax}
-                    |- Weather: ${place.weather[0].main}
-                    |- Detail: ${place.weather[0].description}
-                """.trimMargin()
-            binding.tvData.text = text
+        viewModel.place.observe(this) { place ->
+            binding.apply {
+                tvData.text = weatherText(place)
+                tvHeading.text = place.name
+            }
         }
 
         // observe status

@@ -13,10 +13,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
+import com.example.airweatherapp.CommonViewModel
 import com.example.airweatherapp.R
 import com.example.airweatherapp.ResponseStatus.DONE
 import com.example.airweatherapp.databinding.ActivityMainBinding
 import com.example.airweatherapp.search.SearchActivity
+import com.example.airweatherapp.weatherText
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import timber.log.Timber
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
     /**
      * View model
      */
-    private val viewModel: MainActivityViewModel by viewModels()
+    private val viewModel: CommonViewModel by viewModels()
 
     /**
      * Location client
@@ -58,13 +60,10 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
 
         // Observe the viewModel
         viewModel.place.observe(this) { place ->
-                val text = """Location: ${place.name}, ${place.sys.country}
-                    |Temperature: ${place.main.temp}
-                    |Min - max: ${place.main.tempMin} - ${place.main.tempMax}
-                    |Weather: ${place.weather[0].main}
-                    |Detail: ${place.weather[0].description}
-                """.trimMargin()
-                binding.tvLocation.text = text
+            binding.apply {
+                tvLocation.text = weatherText(place)
+                tvHeading.text = place.name
+            }
 
         }
 

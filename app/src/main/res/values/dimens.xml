@@ -2,4 +2,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="emphasis_size">16sp</dimen>
+    <dimen name="body_size">18sp</dimen>
+    <dimen name="heading_size">30sp</dimen>
 </resources>

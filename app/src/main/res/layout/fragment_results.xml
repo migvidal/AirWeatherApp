@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".search.ResultsFragment"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <include android:id="@+id/loading_screen"
-        layout="@layout/layout_loading_screen"/>
+    <include
+        android:id="@+id/loading_screen"
+        layout="@layout/layout_loading_screen"
+        tools:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/tv_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_first_fragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/main_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:orientation="vertical"
+        tools:context=".search.ResultsFragment">
+        <TextView
+            android:id="@+id/tv_heading"
+            style="@style/text_box"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/heading_size"
+            tools:text="Name of place"/>
+        <TextView
+            android:id="@+id/tv_data"
+            style="@style/text_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Data"/>
+    </LinearLayout>
+</FrameLayout>

@@ -33,12 +33,20 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
+            android:id="@+id/tv_heading"
+            style="@style/text_box"
+            android:textSize="@dimen/heading_size"
+            app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Name of place"/>
+        <TextView
             android:id="@+id/tv_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Current location"
-            android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@id/app_bar_layout" />
+            style="@style/text_box"
+            android:textSize="@dimen/body_size"
+            app:layout_constraintTop_toBottomOf="@id/tv_heading"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="All the data"/>
+
 
         <Button
             android:id="@+id/btn_refresh"
