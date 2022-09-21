@@ -9,7 +9,7 @@
         android:id="@+id/ResultsFragment"
         android:name="com.example.airweatherapp.search.ResultsFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_results">
 
         <action
             android:id="@+id/action_ResultsFragment_to_DetailFragment"

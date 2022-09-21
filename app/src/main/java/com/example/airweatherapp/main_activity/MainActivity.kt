@@ -67,18 +67,18 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
                 binding.tvLocation.text = text
 
         }
+
+        // observe status
         viewModel.status.observe(this) { status ->
             binding.apply {
                 when (status) {
                     DONE -> {
                         loadingScreen.loadingScreen.visibility = View.GONE
                         mainScreen.visibility = View.VISIBLE
-                        Timber.i("STATUS_DONE")
                     }
                     else -> {
                         loadingScreen.loadingScreen.visibility = View.VISIBLE
                         mainScreen.visibility = View.GONE
-                        Timber.i("STATUS_ELSE")
                     }
                 }
             }

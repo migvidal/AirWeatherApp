@@ -11,7 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.airweatherapp.R
-import com.example.airweatherapp.databinding.FragmentFirstBinding
+import com.example.airweatherapp.ResponseStatus
+import com.example.airweatherapp.databinding.FragmentResultsBinding
 import com.example.airweatherapp.main_activity.MainActivityViewModel
 
 /**
@@ -19,7 +20,7 @@ import com.example.airweatherapp.main_activity.MainActivityViewModel
  */
 class ResultsFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentResultsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -34,7 +35,7 @@ class ResultsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentResultsBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -51,21 +52,29 @@ class ResultsFragment : Fragment() {
                     |- Weather: ${place.weather[0].main}
                     |- Detail: ${place.weather[0].description}
                 """.trimMargin()
-            binding.textviewFirst.text = text
+            binding.tvData.text = text
+        }
+
+        // observe status
+        viewModel.status.observe(this) { status ->
+            binding.apply {
+                when (status) {
+                    ResponseStatus.DONE -> {
+                        loadingScreen.loadingScreen.visibility = View.GONE
+                        mainScreen.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        loadingScreen.loadingScreen.visibility = View.VISIBLE
+                        mainScreen.visibility = View.GONE
+                    }
+                }
+            }
         }
 
         // get search intent
         if (intent?.action == Intent.ACTION_SEARCH) {
             val searchQuery = intent.getStringExtra(SearchManager.QUERY).toString()
             viewModel.getPlace(searchQuery)
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_ResultsFragment_to_DetailFragment)
         }
     }
 
