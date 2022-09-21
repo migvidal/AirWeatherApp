@@ -13,6 +13,9 @@ import retrofit2.http.Query
 private const val OPEN_WEATHER_BASE_URL = "https://api.openweathermap.org/"
 private const val OPEN_WEATHER_API_KEY = "5501b794c0ef0bb8c063fdb1a3c76569"
 
+/**
+ * Adds common segments to the URL
+ */
 private val paramsInterceptor = Interceptor { chain ->
     var request = chain.request()
     val newUrl = request.url.newBuilder()
@@ -60,6 +63,9 @@ interface WeatherApiService {
     ): Place
 }
 
+/**
+ * Implementation of the weather api
+ */
 object WeatherApiImpl {
     val weatherApiService: WeatherApiService by lazy {
         retrofit.create(WeatherApiService::class.java)

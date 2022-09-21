@@ -10,14 +10,5 @@
         android:name="com.example.airweatherapp.search.ResultsFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_results">
-
-        <action
-            android:id="@+id/action_ResultsFragment_to_DetailFragment"
-            app:destination="@id/DetailFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/DetailFragment"
-        android:name="com.example.airweatherapp.search.DetailFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second"/>
 </navigation>
