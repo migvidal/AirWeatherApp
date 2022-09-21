@@ -65,3 +65,5 @@ object WeatherApiImpl {
         retrofit.create(WeatherApiService::class.java)
     }
 }
+
+enum class ResponseStatus { LOADING, ERROR, DONE }

@@ -11,4 +11,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="search_title">Search</string>
     <string name="search_hint">Search for places</string>
+    <string name="loading_message">Loading</string>
+    <string name="refresh">Refresh</string>
 </resources>

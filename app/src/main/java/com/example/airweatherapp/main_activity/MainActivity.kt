@@ -5,7 +5,6 @@ import android.app.SearchManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,10 +14,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import com.example.airweatherapp.R
-import com.example.airweatherapp.search.SearchActivity
+import com.example.airweatherapp.ResponseStatus.DONE
 import com.example.airweatherapp.databinding.ActivityMainBinding
+import com.example.airweatherapp.search.SearchActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import timber.log.Timber
 
 const val PERMISSION_REQUEST_LOCATION = 1000
 
@@ -39,40 +40,57 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
      */
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    /**
-     * Location
-     */
-    private lateinit var location: Location
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        try {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
 
         // layout
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        // Listener for button
-        binding.btnShowLocation.setOnClickListener {
-            showLocation()
-        }
 
         // Observe the viewModel
         viewModel.place.observe(this) { place ->
-            binding.apply {
                 val text = """Location: ${place.name}, ${place.sys.country}
                     |Temperature: ${place.main.temp}
                     |Min - max: ${place.main.tempMin} - ${place.main.tempMax}
                     |Weather: ${place.weather[0].main}
                     |Detail: ${place.weather[0].description}
                 """.trimMargin()
-                tvLocation.text = text
+                binding.tvLocation.text = text
+
+        }
+        viewModel.status.observe(this) { status ->
+            binding.apply {
+                when (status) {
+                    DONE -> {
+                        loadingScreen.loadingScreen.visibility = View.GONE
+                        mainScreen.visibility = View.VISIBLE
+                        Timber.i("STATUS_DONE")
+                    }
+                    else -> {
+                        loadingScreen.loadingScreen.visibility = View.VISIBLE
+                        mainScreen.visibility = View.GONE
+                        Timber.i("STATUS_ELSE")
+                    }
+                }
             }
         }
+
+        // listeners
+        binding.btnRefresh.setOnClickListener {
+            showLocation()
+        }
+
+        // show location on launch
+        showLocation()
 
     }
 
@@ -87,14 +105,7 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
     }
 
     private fun requestLocationPermission() {
-        if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                PERMISSION_REQUEST_LOCATION
-            )
-        } else {
-            requestPermissions(arrayOf(Manifest.permission.CAMERA), PERMISSION_REQUEST_LOCATION)
-        }
+        requestPermissions(arrayOf(Manifest.permission.CAMERA), PERMISSION_REQUEST_LOCATION)
     }
 
     private fun getLocation() {

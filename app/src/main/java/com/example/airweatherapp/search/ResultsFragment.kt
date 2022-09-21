@@ -44,8 +44,14 @@ class ResultsFragment : Fragment() {
 
         val intent = activity?.intent
         // observe vm
-        viewModel.place.observe(this) {
-            binding.textviewFirst.text = it.name
+        viewModel.place.observe(this) {place ->
+            val text = """Weather in ${place.name}, ${place.sys.country}:
+                    |- Temperature: ${place.main.temp}
+                    |- Min - max: ${place.main.tempMin} - ${place.main.tempMax}
+                    |- Weather: ${place.weather[0].main}
+                    |- Detail: ${place.weather[0].description}
+                """.trimMargin()
+            binding.textviewFirst.text = text
         }
 
         // get search intent
